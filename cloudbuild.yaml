@@ -16,7 +16,6 @@ steps:
         </servers>
       </settings>
       EOF
-      cat /root/.m2/settings.xml
-      mvn versions:set -DremoveSnapshot
-      mvn sign:sign
+      mvn versions:set -DremoveSnapshot &&
+      mvn sign:sign &&
       mvn -B clean package deploy
