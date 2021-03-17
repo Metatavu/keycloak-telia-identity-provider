@@ -5,7 +5,7 @@ steps:
       - '-c'
       - |
         mkdir -p /root/.m2
-        cat << EOF > /tmp/settings.xml
+        cat << EOF > /root/.m2/settings.xml
         <settings>
           <servers>
             <server>
