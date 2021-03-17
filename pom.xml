@@ -7,6 +7,47 @@
     <artifactId>keycloak-telia-identity-provider</artifactId>
     <version>12.0.2-1-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <name>Telia Keycloak identitity provider</name>
+    <description>Keycloak identitity provider for Telia Tunnistus</description>
+    <url>https://github.com/Metatavu/keycloak-telia-identity-provider</url>
+
+    <licenses>
+      <license>
+        <name>GNU Affero General Public License v3</name>
+        <url>http://www.gnu.org/licenses/agpl-3.0.html</url>
+        <distribution>repo</distribution>
+      </license>
+    </licenses>
+
+  <developers>
+    <developer>
+      <id>metatavu</id>
+      <email>devs@metatavu.fi</email>
+      <name>Metatavu Oy</name>
+      <organization>Metatavu Oy</organization>
+      <organizationUrl>https://www.metatavu.fi/</organizationUrl>
+      <roles>
+        <role>Owner</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/Metatavu/keycloak-telia-identity-provider/issues</url>
+  </issueManagement>
+
+  <scm>
+    <developerConnection>scm:git:git@github.com:Metatavu/keycloak-telia-identity-provider.git</developerConnection>
+    <url>git@github.com:Metatavu/keycloak-telia-identity-provider.git</url>
+    <connection>scm:git:git@github.com:Metatavu/keycloak-telia-identity-provider.git</connection>
+    <tag>HEAD</tag>
+  </scm>
+
+  <organization>
+    <name>Metatavu Oy</name>
+    <url>https://www.metatavu.fi</url>
+  </organization>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
