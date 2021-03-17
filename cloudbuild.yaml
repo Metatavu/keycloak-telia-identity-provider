@@ -1,29 +1,22 @@
 steps:
   - name: 'maven:3.6.3-openjdk-11'
     entrypoint: 'bash'
-    env:
-      - "DEBIAN_FRONTEND=noninteractive"
-      - "SIGN_KEY=${_SIGN_KEY}"
-    args:
-      - '-c'
-      - |
-        mkdir -p /root/.m2
-        cat << EOF > /root/.m2/settings.xml
-        <settings>
-          <servers>
-            <server>
-              <id>ossrh</id>
-              <username>${_OSSRH_USERNAME}</username>
-              <password>${_OSSRH_PASSWORD}</password>
-            </server>
-          </servers>
-        </settings>
-        EOF
-  - name: 'maven:3.6.3-openjdk-11'
-    entrypoint: 'bash'
     args: 
     - '-c'
     - |
+      mkdir -p /root/.m2
+      cat << EOF > /root/.m2/settings.xml
+      <settings>
+        <servers>
+          <server>
+            <id>ossrh</id>
+            <username>${_OSSRH_USERNAME}</username>
+            <password>${_OSSRH_PASSWORD}</password>
+          </server>
+        </servers>
+      </settings>
+      EOF
+      cat /root/.m2/settings.xml
       mvn versions:set -DremoveSnapshot
       mvn sign:sign
       mvn -B clean package deploy
