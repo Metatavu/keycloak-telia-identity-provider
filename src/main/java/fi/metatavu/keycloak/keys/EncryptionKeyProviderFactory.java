@@ -25,77 +25,77 @@ import java.util.List;
  */
 public class EncryptionKeyProviderFactory extends AbstractRsaKeyProviderFactory implements KeyProviderFactory {
 
-	public static final String ID = "telia-rsa-enc";
-	private static final String HELP_TEXT = "RSA key provider for Telia encryption purposes";
+  public static final String ID = "telia-rsa-enc";
+  private static final String HELP_TEXT = "RSA key provider for Telia encryption purposes";
 
-	private static final List<ProviderConfigProperty> CONFIG_PROPERTIES = configurationBuilder()
-		.property(Attributes.PRIVATE_KEY_PROPERTY)
-		.property(Attributes.CERTIFICATE_PROPERTY)
-		.build();
+  private static final List<ProviderConfigProperty> CONFIG_PROPERTIES = configurationBuilder()
+    .property(Attributes.PRIVATE_KEY_PROPERTY)
+    .property(Attributes.CERTIFICATE_PROPERTY)
+    .build();
 
-	@Override
-	public KeyProvider create(KeycloakSession session, ComponentModel model) {
-		return new EncryptionKeyProvider(session.getContext().getRealm(), model);
-	}
+  @Override
+  public KeyProvider create(KeycloakSession session, ComponentModel model) {
+    return new EncryptionKeyProvider(session.getContext().getRealm(), model);
+  }
 
-	@Override
-	public void validateConfiguration(KeycloakSession session, RealmModel realm, ComponentModel model) throws ComponentValidationException {
-		ConfigurationValidationHelper.check(model)
-			.checkLong(Attributes.PRIORITY_PROPERTY, false)
-			.checkBoolean(Attributes.ENABLED_PROPERTY, false)
-			.checkBoolean(Attributes.ACTIVE_PROPERTY, false);
+  @Override
+  public void validateConfiguration(KeycloakSession session, RealmModel realm, ComponentModel model) throws ComponentValidationException {
+    ConfigurationValidationHelper.check(model)
+      .checkLong(Attributes.PRIORITY_PROPERTY, false)
+      .checkBoolean(Attributes.ENABLED_PROPERTY, false)
+      .checkBoolean(Attributes.ACTIVE_PROPERTY, false);
 
-		ConfigurationValidationHelper.check(model)
-			.checkSingle(Attributes.PRIVATE_KEY_PROPERTY, true)
-			.checkSingle(Attributes.CERTIFICATE_PROPERTY, false);
+    ConfigurationValidationHelper.check(model)
+      .checkSingle(Attributes.PRIVATE_KEY_PROPERTY, true)
+      .checkSingle(Attributes.CERTIFICATE_PROPERTY, false);
 
-		KeyPair keyPair;
-		try {
-			PrivateKey privateKey = PemUtils.decodePrivateKey(model.get(Attributes.PRIVATE_KEY_KEY));
-			PublicKey publicKey = KeyUtils.extractPublicKey(privateKey);
-			keyPair = new KeyPair(publicKey, privateKey);
-		} catch (Throwable t) {
-			throw new ComponentValidationException("Failed to decode private key", t);
-		}
+    KeyPair keyPair;
+    try {
+      PrivateKey privateKey = PemUtils.decodePrivateKey(model.get(Attributes.PRIVATE_KEY_KEY));
+      PublicKey publicKey = KeyUtils.extractPublicKey(privateKey);
+      keyPair = new KeyPair(publicKey, privateKey);
+    } catch (Throwable t) {
+      throw new ComponentValidationException("Failed to decode private key", t);
+    }
 
-		if (model.contains(Attributes.CERTIFICATE_KEY)) {
-			Certificate certificate;
-			try {
-				certificate = PemUtils.decodeCertificate(model.get(Attributes.CERTIFICATE_KEY));
-			} catch (Throwable t) {
-				throw new ComponentValidationException("Failed to decode certificate", t);
-			}
+    if (model.contains(Attributes.CERTIFICATE_KEY)) {
+      Certificate certificate;
+      try {
+        certificate = PemUtils.decodeCertificate(model.get(Attributes.CERTIFICATE_KEY));
+      } catch (Throwable t) {
+        throw new ComponentValidationException("Failed to decode certificate", t);
+      }
 
-			if (certificate == null) {
-				throw new ComponentValidationException("Failed to decode certificate");
-			}
+      if (certificate == null) {
+        throw new ComponentValidationException("Failed to decode certificate");
+      }
 
-			if (!certificate.getPublicKey().equals(keyPair.getPublic())) {
-				throw new ComponentValidationException("Certificate does not match private key");
-			}
-		} else {
-			try {
-				Certificate certificate = CertificateUtils.generateV1SelfSignedCertificate(keyPair, realm.getName());
-				model.put(Attributes.CERTIFICATE_KEY, PemUtils.encodeCertificate(certificate));
-			} catch (Throwable t) {
-				throw new ComponentValidationException("Failed to generate self-signed certificate");
-			}
-		}
-	}
+      if (!certificate.getPublicKey().equals(keyPair.getPublic())) {
+        throw new ComponentValidationException("Certificate does not match private key");
+      }
+    } else {
+      try {
+        Certificate certificate = CertificateUtils.generateV1SelfSignedCertificate(keyPair, realm.getName());
+        model.put(Attributes.CERTIFICATE_KEY, PemUtils.encodeCertificate(certificate));
+      } catch (Throwable t) {
+        throw new ComponentValidationException("Failed to generate self-signed certificate");
+      }
+    }
+  }
 
-	@Override
-	public List<ProviderConfigProperty> getConfigProperties() {
-		return CONFIG_PROPERTIES;
-	}
+  @Override
+  public List<ProviderConfigProperty> getConfigProperties() {
+    return CONFIG_PROPERTIES;
+  }
 
-	@Override
-	public String getHelpText() {
-		return HELP_TEXT;
-	}
+  @Override
+  public String getHelpText() {
+    return HELP_TEXT;
+  }
 
-	@Override
-	public String getId() {
-		return ID;
-	}
+  @Override
+  public String getId() {
+    return ID;
+  }
 
 }
