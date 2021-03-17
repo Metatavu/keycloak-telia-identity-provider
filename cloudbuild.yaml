@@ -1,0 +1,24 @@
+steps:
+  - name: 'maven:3.6.3-openjdk-11'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        mkdir -p /root/.m2
+        cat << EOF > /tmp/settings.xml
+        <settings>
+          <servers>
+            <server>
+              <id>ossrh</id>
+              <username>${_OSSRH_USERNAME}</username>
+              <password>${_OSSRH_PASSWORD}</password>
+            </server>
+          </servers>
+        </settings>
+        EOF
+  - name: 'maven:3.6.3-openjdk-11'
+    entrypoint: 'bash'
+    args: 
+    - '-c'
+    - mvn versions:set -DremoveSnapshot
+    - mvn -B clean package deploy
