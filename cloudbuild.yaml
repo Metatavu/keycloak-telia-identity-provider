@@ -20,5 +20,6 @@ steps:
     entrypoint: 'bash'
     args: 
     - '-c'
-    - mvn versions:set -DremoveSnapshot
-    - mvn -B clean package deploy
+    - |
+      mvn versions:set -DremoveSnapshot
+      mvn -B clean package deploy
