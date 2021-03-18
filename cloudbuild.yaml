@@ -22,5 +22,4 @@ steps:
       </settings>
       EOF
       mvn versions:set -DremoveSnapshot &&
-      mvn sign:sign &&
-      mvn -B clean package deploy 
+      mvn -B clean package sign:sign deploy 
