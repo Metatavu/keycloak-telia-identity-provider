@@ -1,6 +1,11 @@
 steps:
   - name: 'maven:3.6.3-openjdk-11'
     entrypoint: 'bash'
+    env:
+      - "DEBIAN_FRONTEND=noninteractive"
+      - "SIGN_KEY=${_SIGN_KEY}"
+      - "SIGN_KEY_PASS=${_SIGN_KEY_PASS}"
+      - "SIGN_KEY_ID=${_SIGN_KEY_ID}"
     args: 
     - '-c'
     - |
@@ -18,4 +23,4 @@ steps:
       EOF
       mvn versions:set -DremoveSnapshot &&
       mvn sign:sign &&
-      mvn -B clean package deploy
+      mvn -B clean package deploy 
