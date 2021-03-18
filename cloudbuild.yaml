@@ -4,8 +4,6 @@ steps:
     env:
       - "DEBIAN_FRONTEND=noninteractive"
       - "SIGN_KEY=${_SIGN_KEY}"
-      - "SIGN_KEY_PASS=${_SIGN_KEY_PASS}"
-      - "SIGN_KEY_ID=${_SIGN_KEY_ID}"
     args: 
     - '-c'
     - |
@@ -21,5 +19,7 @@ steps:
         </servers>
       </settings>
       EOF
+      echo $SIGN_KEY > /root/.m2//sign-key.asc
+      gpg --import /root/.m2//sign-key.asc
       mvn versions:set -DremoveSnapshot &&
-      mvn -B clean package sign:sign deploy 
+      mvn -B clean package sign:sign deploy -Dgpg.passphrase=${_SIGN_KEY_PASS}
