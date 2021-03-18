@@ -19,7 +19,7 @@ steps:
         </servers>
       </settings>
       EOF
-      echo $SIGN_KEY > /root/.m2//sign-key.asc
-      gpg --import /root/.m2//sign-key.asc
+      echo $$SIGN_KEY > /root/.m2/sign-key.asc
+      gpg --import /root/.m2/sign-key.asc
       mvn versions:set -DremoveSnapshot &&
       mvn -B clean package sign:sign deploy -Dgpg.passphrase=${_SIGN_KEY_PASS}
