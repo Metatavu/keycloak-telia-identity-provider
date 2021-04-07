@@ -20,13 +20,13 @@ steps:
         <profiles>
           <profile>
             <id>sign</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <properties>
                 <gpg.passphrase>${_SIGN_KEY_PASS}</gpg.passphrase>
             </properties>
           </profile>
+          <activeProfiles>
+              <activeProfile>sign</activeProfile>
+          </activeProfiles>
         </profiles>
       </settings>
       EOF
@@ -34,5 +34,6 @@ steps:
       gpg --import /root/.m2/sign-key.asc
       echo -e "5\ny\n" |  gpg --no-tty --command-fd 0 --expert --edit-key ${_SIGN_KEY_ID} trust
       gpg --list-keys
+      cat /root/.m2/settings.xml
       mvn --no-transfer-progress -B versions:set -DremoveSnapshot &&
       mvn --no-transfer-progress -B clean package gpg:sign deploy
