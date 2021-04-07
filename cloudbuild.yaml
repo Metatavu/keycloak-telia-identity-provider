@@ -24,10 +24,10 @@ steps:
                 <gpg.passphrase>${_SIGN_KEY_PASS}</gpg.passphrase>
             </properties>
           </profile>
-          <activeProfiles>
-              <activeProfile>sign</activeProfile>
-          </activeProfiles>
         </profiles>
+        <activeProfiles>
+          <activeProfile>sign</activeProfile>
+        </activeProfiles>
       </settings>
       EOF
       echo $$SIGN_KEY | base64 --decode > /root/.m2/sign-key.asc
