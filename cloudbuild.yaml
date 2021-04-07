@@ -41,4 +41,4 @@ steps:
       gpg --list-keys
       cat /root/.m2/settings.xml
       mvn --no-transfer-progress -B versions:set -DremoveSnapshot &&
-      mvn --no-transfer-progress -B clean package gpg:sign deploy
+      mvn --no-transfer-progress -B clean package gpg:sign deploy -Dgpg.passphrase=${_SIGN_KEY_PASS} -Darguments=-Dgpg.passphrase=${_SIGN_KEY_PASS}
