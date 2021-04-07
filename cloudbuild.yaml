@@ -17,7 +17,7 @@ steps:
             <password>${_OSSRH_PASSWORD}</password>
           </server>
           <server>
-            <id>gpg.passphrase</id>
+            <id>${_SIGN_KEY_ID}</id>
             <passphrase>${_SIGN_KEY_PASS}</passphrase>
           </server>
         </servers>
