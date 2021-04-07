@@ -16,7 +16,23 @@ steps:
             <username>${_OSSRH_USERNAME}</username>
             <password>${_OSSRH_PASSWORD}</password>
           </server>
+          <server>
+            <id>${_SIGN_KEY_ID}</id>
+            <passphrase>${_SIGN_KEY_PASS}</passphrase>
+          </server>
         </servers>
+        <profiles>
+          <profile>
+            <id>sign</id>
+            <properties>
+                <gpg.passphrase>${_SIGN_KEY_PASS}</gpg.passphrase>
+                <gpg.keyname>${_SIGN_KEY_ID}</gpg.keyname>
+            </properties>
+          </profile>
+        </profiles>
+        <activeProfiles>
+          <activeProfile>sign</activeProfile>
+        </activeProfiles>
       </settings>
       EOF
       echo $$SIGN_KEY | base64 --decode > /root/.m2/sign-key.asc
@@ -25,5 +41,5 @@ steps:
       gpg --list-keys
       cat /root/.m2/settings.xml
       mvn --no-transfer-progress -B versions:set -DremoveSnapshot &&
-      mvn --no-transfer-progress -B clean verify -Dgpg.passphrase=${_SIGN_KEY_PASS} -Dgpg.keyname=${_SIGN_KEY_ID}
+      mvn --no-transfer-progress -B clean verify -Dgpg.passphrase=${_SIGN_KEY_PASS} -Dgpg.keyname=${_SIGN_KEY_ID} &&
       mvn --no-transfer-progress -B deploy
