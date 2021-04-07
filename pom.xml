@@ -123,7 +123,7 @@
               <goal>sign</goal>
             </goals>
             <configuration>
-              <passphrase>${pgp-passphrase}</passphrase>
+              <passphrase>${gpg.passphrase}</passphrase>
             </configuration>
           </execution>
         </executions>

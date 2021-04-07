@@ -17,6 +17,17 @@ steps:
             <password>${_OSSRH_PASSWORD}</password>
           </server>
         </servers>
+        <profiles>
+          <profile>
+            <id>sign</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <gpg.passphrase>${_SIGN_KEY_PASS}</gpg.passphrase>
+            </properties>
+          </profile>
+        </profiles>
       </settings>
       EOF
       echo $$SIGN_KEY | base64 --decode > /root/.m2/sign-key.asc
@@ -24,4 +35,4 @@ steps:
       echo -e "5\ny\n" |  gpg --no-tty --command-fd 0 --expert --edit-key ${_SIGN_KEY_ID} trust
       gpg --list-keys
       mvn --no-transfer-progress -B versions:set -DremoveSnapshot &&
-      mvn --no-transfer-progress -B clean package gpg:sign deploy -Dgpg.passphrase=${_SIGN_KEY_PASS}
+      mvn --no-transfer-progress -B clean package gpg:sign deploy
