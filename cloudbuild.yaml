@@ -16,12 +16,17 @@ steps:
             <username>${_OSSRH_USERNAME}</username>
             <password>${_OSSRH_PASSWORD}</password>
           </server>
+          <server>
+            <id>gpg.passphrase</id>
+            <passphrase>${_SIGN_KEY_PASS}</passphrase>
+          </server>
         </servers>
         <profiles>
           <profile>
             <id>sign</id>
             <properties>
                 <gpg.passphrase>${_SIGN_KEY_PASS}</gpg.passphrase>
+                <gpg.keyname>${_SIGN_KEY_ID}</gpg.keyname>
             </properties>
           </profile>
         </profiles>
