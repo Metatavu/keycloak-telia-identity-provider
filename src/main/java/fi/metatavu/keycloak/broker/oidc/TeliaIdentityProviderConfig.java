@@ -8,6 +8,7 @@ import java.util.Optional;
 /**
  * OIDC identity provider config for Telia Tunnistus
  */
+@SuppressWarnings("unused")
 public class TeliaIdentityProviderConfig extends OIDCIdentityProviderConfig {
 
   /**
@@ -26,43 +27,43 @@ public class TeliaIdentityProviderConfig extends OIDCIdentityProviderConfig {
   }
 
   /**
-   * Returns used environment (pre-production or production)
+   * Returns identity strategy
    *
-   * @return environment
+   * @return identity strategy
    */
-  public TeliaIdentityEnvironment getEnvironment() {
-    return Optional.ofNullable(getConfig().get("environment"))
-      .map(TeliaIdentityEnvironment::valueOf)
-      .orElse(TeliaIdentityEnvironment.PRE_PRODUCTION);
+  public TeliaIdentityStrategy getIdentityStrategy() {
+    return Optional.ofNullable(getConfig().get("identityStrategy"))
+      .map(TeliaIdentityStrategy::valueOf)
+      .orElse(TeliaIdentityStrategy.SUBJECT);
   }
 
   /**
-   * Sets used environment (pre-production or production)
+   * Sets identity strategy
    *
-   * @param environment environment
+   * @param IdentityStrategy identity strategy
    */
-  public void setEnvironment(TeliaIdentityEnvironment environment) {
-    getConfig().put("environment", environment.name());
+  public void setIdentityStrategy(final TeliaIdentityStrategy IdentityStrategy) {
+    getConfig().put("identityStrategy", IdentityStrategy.name());
   }
 
   /**
-   * Returns username origin
+   * Returns username strategy
    *
-   * @return username origin
+   * @return username strategy
    */
-  public TeliaIdentityUsernameOrigin getUsernameOrigin() {
-    return Optional.ofNullable(getConfig().get("usernameOrigin"))
-      .map(TeliaIdentityUsernameOrigin::valueOf)
-      .orElse(TeliaIdentityUsernameOrigin.SUBJECT);
+  public TeliaIdentityUsernameStrategy getUsernameStrategy() {
+    return Optional.ofNullable(getConfig().get("usernameStrategy"))
+      .map(TeliaIdentityUsernameStrategy::valueOf)
+      .orElse(TeliaIdentityUsernameStrategy.SUBJECT);
   }
 
   /**
-   * Sets username origin
+   * Sets username strategy
    *
-   * @param usernameOrigin username origin
+   * @param usernameStrategy username strategy
    */
-  public void setUsernameOrigin(final TeliaIdentityUsernameOrigin usernameOrigin) {
-    getConfig().put("usernameOrigin", usernameOrigin.name());
+  public void setUsernameStrategy(final TeliaIdentityUsernameStrategy usernameStrategy) {
+    getConfig().put("usernameStrategy", usernameStrategy.name());
   }
 
 }

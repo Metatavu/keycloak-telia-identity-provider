@@ -1,9 +1,9 @@
 package fi.metatavu.keycloak.broker.oidc;
 
 /**
- * Enum that specifies where new user username originates from
+ * Enum that specifies how username is resolved
  */
-public enum TeliaIdentityUsernameOrigin {
+public enum TeliaIdentityUsernameStrategy {
 
 	/**
 	 * IDToken sub -field is used as username (default)
